@@ -47,9 +47,6 @@ cargo run --release -- -i path/to/your/audio.mp3
 Optional parameters:
 - `-w, --window-size`: FFT window size for spectrogram (default: 1024)
 
-## Controls
-
-- Press 'q' to quit the visualization
 
 ## Display
 
