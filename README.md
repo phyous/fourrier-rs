@@ -4,6 +4,13 @@ A Rust-based audio visualization tool that provides waveform visualization, spec
 
 ![Screenshot](./img/image.png)
 
+## Quickstart
+Run:
+```bash
+cargo run --release -- -i sample_audio/harvard.wav
+```
+To get the above output.
+
 ## Features
 
 - Audio file loading (supports WAV and MP3)
