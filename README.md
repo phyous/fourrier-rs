@@ -2,6 +2,8 @@
 
 A Rust-based audio visualization tool that provides waveform visualization, spectrogram analysis, and speech transcription in your terminal.
 
+![Screenshot](./img/image.png)
+
 ## Features
 
 - Audio file loading (supports WAV and MP3)

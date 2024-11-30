@@ -177,9 +177,9 @@ pub fn transcribe_audio<P: AsRef<Path>>(path: P) -> Result<Vec<TranscriptionSegm
         }
         
         let start = state.full_get_segment_t0(i)
-            .map_err(|e| anyhow!("Failed to get segment start time: {}", e))? as f64;
+            .map_err(|e| anyhow!("Failed to get segment start time: {}", e))? as f64 / 100.0;
         let end = state.full_get_segment_t1(i)
-            .map_err(|e| anyhow!("Failed to get segment end time: {}", e))? as f64;
+            .map_err(|e| anyhow!("Failed to get segment end time: {}", e))? as f64 / 100.0;
         
         println!("Segment {}: [{:.2}-{:.2}] {}", i, start, end, segment_text);
         
