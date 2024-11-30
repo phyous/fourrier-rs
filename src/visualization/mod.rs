@@ -84,11 +84,8 @@ impl Visualizer {
         // Find the maximum amplitude for proper scaling
         let max_amplitude = self.audio_data.samples
             .iter()
-            .map(|&x| x.abs())
+            .cloned()
             .fold(0.0f32, f32::max);
-
-        // Scale factor to use most of the available space
-        let scale = if max_amplitude > 0.0 { 0.95 / max_amplitude } else { 1.0 };
 
         // Calculate step size based on available width
         let points_per_column = (self.audio_data.samples.len() / area.width as usize).max(1);
@@ -101,7 +98,7 @@ impl Visualizer {
                 let rms = (chunk.iter().map(|&x| x * x).sum::<f32>() / chunk.len() as f32).sqrt();
                 (
                     i as f64 * points_per_column as f64 / self.audio_data.sample_rate as f64,
-                    (rms * scale) as f64,
+                    (rms / max_amplitude) as f64, // Scale to fit the y-axis
                 )
             })
             .collect();
@@ -113,6 +110,12 @@ impl Visualizer {
                 Span::raw(format!("{:.1}s", time))
             })
             .collect();
+
+        let y_bounds = [0.0, 1.0];
+        let y_labels = vec![
+            "0.0".to_string(),
+            "1.0".to_string(),
+        ];
 
         let datasets = vec![Dataset::default()
             .name("Waveform")
@@ -132,8 +135,8 @@ impl Visualizer {
             .y_axis(
                 ratatui::widgets::Axis::default()
                     .title("Amplitude")
-                    .bounds([-1.0, 1.0])
-                    .labels(vec!["-1.0", "-0.5", "0.0", "0.5", "1.0"].into_iter().map(Span::raw).collect())
+                    .bounds(y_bounds)
+                    .labels(y_labels.into_iter().map(Span::raw).collect())
             );
 
         frame.render_widget(chart, area);
